@@ -1,0 +1,480 @@
+
+//Todo list
+// Add Products - Done
+// Viewing all Products - Done
+// Viewing individual products - Done
+// Category selection - Done
+// Edit Products - Done
+// Bill generation
+// Discount generation
+// Stock fill 
+// Upper Case method
+import java.text.*;
+import java.time.*;
+import java.util.*;
+import java.time.format.DateTimeFormatter;
+
+//Main class
+class Main extends Bill {
+	// Declaration
+	static float amount = 1000;
+	Scanner sc = new Scanner(System.in);
+	static int noOfElements = 0;
+	static int maxLimit = 500;
+	static int billNum = -1;
+	// Arrs
+	public static Product[] Arr = new Product[maxLimit];
+	public static Bill[]billArray = new Bill[maxLimit];
+	
+	public static void main(String[] args) {
+		System.out.println("Press H for help");
+		loop: for (;;) {
+			System.out.print(">  ");
+			Scanner sc = new Scanner(System.in);
+			char ch = sc.next().charAt(0);
+			ch = Character.toString(c).toLowerCase();
+			Main executor = new Main();
+
+			switch (ch) {
+			case 'h':
+				System.out.println(
+						" [A]dd products \n [V]iew specific product \n [L]ist of all products\n [M]odify product \n [F]ilter by category\n [E]xit \n [B]ill generation");
+				break;
+			case 'b':
+				executor.billGeneration();
+				break;
+			case 'a':
+				executor.addProduct();
+				break;
+			case 'm':
+				executor.editProduct();
+				break;
+			case 'v':
+				System.out.print("[N]ame, [I]nhd, [S]l no.: ");
+
+				// Can we try:
+				char c = sc.next().charAt(0);
+				c = Character.toString(c).toLowerCase();
+				switch (c) {
+				case 's':
+					int z = sc.nextInt();
+					executor.viewProduct(z);
+					break;
+				case 'n':
+					sc.nextLine();
+					String z1 = sc.nextLine();
+					executor.viewProduct(z1, 1);
+					break;
+				case 'i':
+					sc.nextLine();
+					String z2 = sc.nextLine();
+					executor.viewProduct(z2, 2);
+					break;
+				}
+				break;
+
+			case 'l':
+				executor.viewAllProducts();
+				break;
+			case 'f':
+				System.out.print("Category: ");
+				sc.nextLine();
+				String z3 = sc.nextLine();
+				executor.categoryFilter(z3);
+				break;
+			case 'e':
+				break loop;
+			}
+		}
+	}
+
+	// Add Products
+	public void addProduct() {
+
+		// id
+
+		// idGen:while (true)
+		// {
+		// int range = (11000);
+		// double randomID = (Math.random*range)+1000;
+		// String i = (int)(Math.round(randomID));
+		// if (setOfIDs.contains(i)==true)
+		// {
+		// continue idGen;
+		// }
+		// HashSet<String> setOfIDs = new HashSet ();
+		// break idGen;
+		// }
+
+		// randomly generated number or string
+		// S.no
+		int serial = noOfElements + 1;
+		String i = Integer.toHexString(serial);
+
+		// name
+		System.out.print("Enter name of the product:");
+		String n = sc.nextLine();
+
+		// price
+		System.out.print("Enter price of the product:");// Can we change the prompt to "Enter the price of 1 item of the
+														// product:" ?
+		float p = sc.nextFloat();
+
+		// stock
+		System.out.print("Enter stock of the product:");
+		int s = sc.nextInt();
+
+		// day
+		System.out.print("Enter the day(Only No.) of the month: ");
+		int d = sc.nextInt();
+
+		System.out.print("Enter the month(Only No.): ");
+		int m = sc.nextInt();
+
+		System.out.print("Enter the year: ");
+		int y = sc.nextInt();
+
+		sc.nextLine();
+		// category
+		System.out.print("Enter category of the product:");
+		String c = sc.nextLine();
+
+		Arr[noOfElements] = new Product();
+		Arr[noOfElements].id = i;
+		Arr[noOfElements].name = n;
+		Arr[noOfElements].slno = serial;
+		Arr[noOfElements].stock = s;
+		Arr[noOfElements].price = p;
+		Arr[noOfElements].date = d;
+		Arr[noOfElements].month = m;
+		Arr[noOfElements].year = y;
+		Arr[noOfElements].category = c;
+		System.out.println("The product has been successfully added!");
+		noOfElements++;
+	}
+
+	public void viewProduct(int n) {
+		System.out.println("Id: " + Arr[n].id);
+		System.out.println("Name: " + Arr[n].name);
+		System.out.println("Stock: " + Arr[n].stock);
+		System.out.println("Price: Rs" + Arr[n].price);
+		System.out.println("Category: " + Arr[n].category);
+		System.out.println("Date: " + Arr[n].date + "/" + Arr[n].month + "/" + Arr[n].year);
+	}
+
+	public void viewProduct(String n, int i3) {
+
+		if (i3 == 1) {
+			for (int j = 0; j < noOfElements; j++) {
+				if (Arr[j].name.equals(n)) {
+					System.out.println("Id: " + Arr[j].id);
+					System.out.println("Name: " + Arr[j].name);
+					System.out.println("Stock: " + Arr[j].stock);
+					System.out.println("Price: Rs" + Arr[j].price);
+					System.out.println("Category: " + Arr[j].category);
+					System.out.println("Date: " + Arr[j].date + "/" + Arr[j].month + "/" + Arr[j].year);
+				}
+			}
+		} else {
+			for (int j2 = 0; j2 < noOfElements; j2++) {
+				if (Arr[j2].id.equals(n)) {
+					System.out.println("Id: " + Arr[j2].id);
+					System.out.println("Name: " + Arr[j2].name);
+					System.out.println("Stock: " + Arr[j2].stock);
+					System.out.println("Price: Rs" + Arr[j2].price);
+					System.out.println("Category: " + Arr[j2].category);
+					System.out.println("Date: " + Arr[j2].date + "/" + Arr[j2].month + "/" + Arr[j2].year);
+				}
+			}
+		}
+
+	}
+
+	public void viewAllProducts() {
+		for (int i2 = 0; i2 < noOfElements; i2++) {
+			System.out.println("Id: " + Arr[i2].id);
+			System.out.println("Name: " + Arr[i2].name);
+			System.out.println("Stock: " + Arr[i2].stock);
+			System.out.println("Price: Rs" + Arr[i2].price);
+			System.out.println("Category: " + Arr[i2].category);
+			System.out.println("Date: " + Arr[i2].date + "/" + Arr[i2].month + "/" + Arr[i2].year);
+			System.out.println();
+		}
+	}
+
+	public void editProduct() {
+		System.out.println("What Do You Want To Edit \n [N]ame \n [S]tock \n [C]ategory");
+		char edit = sc.next().charAt(0);
+		switch (edit) {
+		case 'N':
+		case 'n':
+			System.out.println("Enter the slno of the product ");
+			int serial1 = sc.nextInt();
+			sc.nextLine();
+			System.out.println("Enter the new Name of the product");
+			String newName = sc.nextLine();
+
+			for (int i3 = 0; i3 < noOfElements; i3++) {
+
+				if (Arr[i3].slno == serial1) {
+					Arr[i3].name = newName;
+					System.out.println("It has been Successfully Changed!!!");
+				}
+			}
+			break;
+		case 'S':
+		case 's':
+			System.out.println("Enter the slno of the product ");
+			int serial2 = sc.nextInt();
+			System.out.println("Enter the new Stock of the product");
+			int newStock = sc.nextInt();
+			for (int i4 = 0; i4 < noOfElements; i4++) {
+				if (Arr[i4].slno == serial2) {
+					Arr[i4].stock = newStock;
+					System.out.println("It has been successfully Changed!!!");
+				}
+			}
+			break;
+		case 'C':
+		case 'c':
+			System.out.println("Enter the slno of the product ");
+			int serial3 = sc.nextInt();
+			sc.nextLine();
+			System.out.println("Enter the new Category of the product");
+			String newCategory = sc.nextLine();
+			for (int i5 = 0; i5 < noOfElements; i5++) {
+				if (Arr[i5].slno == serial3) {
+					Arr[i5].category = newCategory;
+					System.out.println("It has been successfully Changed!!!");
+
+				}
+			}
+			break;
+
+		}
+
+	}
+
+	public void categoryFilter(String str) {
+		for (int j3 = 0; j3 < noOfElements; j3++) {
+			if (Arr[j3].category.equals(str)) {
+
+				System.out.println("Id: " + Arr[j3].id);
+				System.out.println("Name: " + Arr[j3].name);
+				System.out.println("Stock: " + Arr[j3].stock);
+				System.out.println("Price: Rs" + Arr[j3].price);
+				System.out.println("Category: " + Arr[j3].category);
+				System.out.println("Date: " + Arr[j3].date + "/" + Arr[j3].month + "/" + Arr[j3].year);
+				System.out.println();
+			}
+		}
+	}
+
+	public static void billGeneration() {
+		newBill: while (true) {
+			billNum++;
+			Scanner sc = new Scanner(System.in);
+			int productNum = 0;
+			String formattedDate, formattedTime, finalBillNum;
+			LocalDate date = LocalDate.now();
+			formattedDate = date.format(DateTimeFormatter.ofPattern("ddMMyyyy"));
+			LocalTime time = LocalTime.now();
+			formattedTime = time.format(DateTimeFormatter.ofPattern("hhmmss"));
+			finalBillNum = formattedDate + formattedTime;
+			billArray[billNum] = new Bill();
+			billArray[billNum].billNumber = finalBillNum;
+			billArray[billNum].billDate = date.toString();
+			boolean invalidInput = false;
+			boolean secondLoop = false;
+
+			productEntry: while (true) {
+				int ctr, numberOfUnits = 0, productPosition = 0;
+				String currentProductName;
+				char addOrFinishBill;
+				Pdt_name: while (true) {
+					System.out.print("Enter the product name : ");
+					currentProductName = sc.next().toLowerCase();
+					for (ctr = 0; ctr < 5; ctr++) {
+						if ((Arr[ctr].name.toLowerCase()).equals(currentProductName)) {
+							billArray[billNum].productsArray[productNum] = new Bill_ProductList();
+							billArray[billNum].productsArray[productNum].productName = currentProductName;
+							productPosition = ctr;
+							billArray[billNum].productsArray[productNum].productID = Arr[productPosition].id;
+							billArray[billNum].productsArray[productNum].pricePerUnit = Arr[productPosition].price;
+							break Pdt_name;
+						}
+					}
+					System.out.println("Product does not exist in inventory. \n");
+				}
+				Pdt_Units: while (true) {
+					try {
+						System.out.print("Enter the number of products to be purchased : ");
+						numberOfUnits = sc.nextInt();
+						if (numberOfUnits <= 0) {
+							System.out.println("Enter a valid number. \n");
+						} else if (Arr[productPosition].stock >= numberOfUnits) {
+							billArray[billNum].productsArray[productNum].numberOfUnits = numberOfUnits;
+							Arr[productPosition].stock -= numberOfUnits;
+							billArray[billNum].productsArray[productNum].finalPrice = numberOfUnits
+									* billArray[billNum].productsArray[productNum].pricePerUnit;
+							billArray[billNum].productsArray[productNum].productDate = Arr[productPosition].p_date;
+							billArray[billNum].productsArray[productNum].discountGiven = discountGenerator(billNum,
+									productNum);
+							billArray[billNum].billDiscount += billArray[billNum].productsArray[productNum].discountGiven;
+							billArray[billNum].productsArray[productNum].totalPricePerProduct = billArray[billNum].productsArray[productNum].finalPrice
+									- billArray[billNum].productsArray[productNum].discountGiven;
+							billArray[billNum].billTotal += billArray[billNum].productsArray[productNum].totalPricePerProduct;
+							break Pdt_Units;
+						} else {
+							System.out.println(
+									"Inventory has only " + Arr[productPosition].stock + " units available. \n");
+						}
+					} catch (InputMismatchException e) {
+						System.out.println("Enter a valid number. \n");
+						sc.next();
+					}
+				}
+				nextAction: while (true) {
+					System.out.print("[A]dd another product to invoice. \n [G]enerate final invoice.");
+					addOrFinishBill = Character.toUpperCase(sc.next().charAt(0));
+					switch (addOrFinishBill) {
+					case 'A': {
+						secondLoop = true;
+						System.out.println("");
+						productNum++;
+						continue productEntry;
+					}
+					case 'G': {
+						billArray[billNum].numberOfProducts = (productNum + 1);
+						break productEntry;
+					}
+					default: {
+						System.out.println("Enter a valid character. \n");
+						invalidInput = true;
+					}
+					}
+					if (invalidInput == false) {
+						break;
+					}
+				}
+			}
+			billArray[billNum].billTax = taxForBill(billArray[billNum].billTotal);
+			billArray[billNum].finalAmount = ((billArray[billNum].billTotal + billArray[billNum].billTax)
+					- billArray[billNum].billDiscount);
+			printBill(billArray, billNum);
+
+			while (true) {
+				char inputChar;
+				String str_newBill = "";
+				try {
+					System.out.print("[G]enerate new bill. \n [E]nd bill generation.");
+					inputChar = sc.next().charAt(0);
+					str_newBill = Character.toString(inputChar).toLowerCase();
+				} catch (InputMismatchException e) {
+					System.out.println("Enter a valid character. \n");
+				}
+				switch (str_newBill) {
+				case "g": {
+					continue newBill;
+				}
+				case "e": {
+					break newBill;
+				}
+				default: {
+					System.out.println("Enter a valid character. \n");
+				}
+				}
+			}
+		}
+	}
+
+	public static void printBill(Bill[] billArray1, int billNumber) {
+		int ctr1;
+		int productNum = 0;
+		System.out.println("");
+		System.out.println(
+				"Bill ID : " + billArray1[billNumber].billNumber + "\n Date : " + billArray1[billNumber].billDate);
+		System.out.printf("%-20s%-20s%-20s%-20s%-20s%-20s%n", "Product name", "Quantity", "Cost per unit",
+				"Cost of all units", "Discount given", "Net product cost");
+		System.out.println("\n");
+		for (ctr1 = 0; ctr1 < billArray1[billNumber].numberOfProducts; ctr1++) {
+			System.out.printf("%-20s%-20d%-20.2f%-20.2f%-20.2f%-20.2f%n",
+					billArray[billNumber].productsArray[ctr1].productName,
+					billArray[billNumber].productsArray[ctr1].numberOfUnits,
+					billArray[billNumber].productsArray[ctr1].pricePerUnit,
+					billArray[billNumber].productsArray[ctr1].finalPrice,
+					(float)(billArray[billNumber].productsArray[ctr1].discountGiven),
+					billArray[billNumber].productsArray[ctr1].totalPricePerProduct);
+		}
+		System.out.println("");
+		System.out.print("Bill total : ");
+		System.out.printf("%.2f%n", billArray[billNumber].billTotal);
+		System.out.print("Net discount : ");
+		System.out.printf("%.2f%n", billArray[billNumber].billDiscount);
+		System.out.print("GST : ");
+		System.out.printf("%.2f%n", billArray[billNumber].billTax);
+		System.out.print("Final amount : ");
+		System.out.printf("%.2f%n", billArray[billNumber].finalAmount);
+		System.out.println("");
+		System.out.println("------------------------------- \n");
+	}
+
+	public static double taxForBill(double billTotal) {
+		double netTax, gstPercent = 5;
+		netTax = ((billTotal * gstPercent) / 100);
+		return netTax;
+	}
+
+	public static double discountGenerator(int billNumber, int productPos) {
+		long discountPercent, numberOfDays;
+		double finalDiscount;
+		LocalDate todayAsLocalDate = LocalDate.now();
+		Date tempDate = billArray[billNumber].productsArray[productPos].productDate;
+		ZoneId defaultZoneId = ZoneId.systemDefault();
+		Instant instant = tempDate.toInstant();
+		LocalDate productDate = instant.atZone(defaultZoneId).toLocalDate();
+		numberOfDays = differenceAsDays(todayAsLocalDate, productDate);
+		if (numberOfDays == 365) {
+			discountPercent = 20;
+		} else if (numberOfDays <= 60) {
+			discountPercent = 0;
+		} else {
+			discountPercent = (long) numberOfDays / 20;
+		}
+		finalDiscount = (billArray[billNumber].productsArray[productPos].finalPrice * discountPercent) / 100;
+		return finalDiscount;
+	}
+
+	static long differenceAsDays(LocalDate first_date, LocalDate second_date) {
+		long numberOfDays = 0;
+		String firstDate, secondDate;
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		firstDate = first_date.toString();
+		secondDate = second_date.toString();
+		try {
+			LocalDate date1 = LocalDate.parse(firstDate, dtf);
+			LocalDate date2 = LocalDate.parse(secondDate, dtf);
+			Period durationBetweenDates = Period.between(date1, date2);
+			if (durationBetweenDates.getYears() > 0) {
+				return 365;
+			}
+			numberOfDays = Math.abs(durationBetweenDates.getMonths() * 30);
+		} catch (Exception e) {
+		}
+		return numberOfDays;
+	}
+}
+
+// Product Class
+class Product {
+	public String id;
+	public String name;
+	public float price;
+	public int stock;
+	public int date;
+	public int slno;
+	public int month;
+	public int year;
+	Date p_date = new Date();
+	public String category;
+}
