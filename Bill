@@ -1,0 +1,10 @@
+public class Bill extends Bill_ProductList {
+	String billNumber;
+	String billDate;
+	int numberOfProducts;
+	double billTotal;
+	double billDiscount;
+	double billTax;
+	double finalAmount;
+	Bill_ProductList[] productsArray = new Bill_ProductList[500];
+}
