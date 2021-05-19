@@ -1,0 +1,10 @@
+public class Bill_ProductList {
+	String productID;
+	String productName;
+	int numberOfUnits;
+	Date productDate = new Date();
+	float pricePerUnit;
+	float finalPrice;
+	double discountGiven;
+	public double totalPricePerProduct;
+}
