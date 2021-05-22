@@ -1,12 +1,12 @@
-
+ 
 //Todo list
 // Add Products - Done
 // Viewing all Products - Done
 // Viewing individual products - Done
 // Category selection - Done
 // Edit Products - Done
-// Bill generation
-// Discount generation
+// Bill generation - Done
+// Discount generation - Done
 // Stock fill 
 // Upper Case method
 import java.text.*;
@@ -32,7 +32,7 @@ class Main extends Bill {
 			System.out.print(">  ");
 			Scanner sc = new Scanner(System.in);
 			char ch = sc.next().charAt(0);
-			ch = Character.toString(c).toLowerCase();
+			ch=Character.toLowerCase(ch);
 			Main executor = new Main();
 
 			switch (ch) {
@@ -54,7 +54,7 @@ class Main extends Bill {
 
 				// Can we try:
 				char c = sc.next().charAt(0);
-				c = Character.toString(c).toLowerCase();
+			    c = Character.toLowerCase(c);
 				switch (c) {
 				case 's':
 					int z = sc.nextInt();
@@ -134,6 +134,14 @@ class Main extends Bill {
 		System.out.print("Enter the year: ");
 		int y = sc.nextInt();
 
+		String dateAsAString = Integer.toString(d)+Integer.toString(m)+Integer.toString(y);
+		SimpleDateFormat formatForDate = new SimpleDateFormat("ddMMyyyy");
+		try {
+		Date productDate = formatForDate.parse(dateAsAString);
+		}
+		catch(Exception e) {
+		}
+
 		sc.nextLine();
 		// category
 		System.out.print("Enter category of the product:");
@@ -148,6 +156,7 @@ class Main extends Bill {
 		Arr[noOfElements].date = d;
 		Arr[noOfElements].month = m;
 		Arr[noOfElements].year = y;
+		Arr[noOfElements].p_date = productDate;
 		Arr[noOfElements].category = c;
 		System.out.println("The product has been successfully added!");
 		noOfElements++;
@@ -270,7 +279,7 @@ class Main extends Bill {
 		}
 	}
 
-	public static void billGeneration() {
+	public void billGeneration() {
 		newBill: while (true) {
 			billNum++;
 			Scanner sc = new Scanner(System.in);
@@ -358,6 +367,7 @@ class Main extends Bill {
 					}
 				}
 			}
+			System.out.println("------------------------------- \n");
 			billArray[billNum].billTax = taxForBill(billArray[billNum].billTotal);
 			billArray[billNum].finalAmount = ((billArray[billNum].billTotal + billArray[billNum].billTax)
 					- billArray[billNum].billDiscount);
@@ -390,7 +400,6 @@ class Main extends Bill {
 
 	public static void printBill(Bill[] billArray1, int billNumber) {
 		int ctr1;
-		int productNum = 0;
 		System.out.println("");
 		System.out.println(
 				"Bill ID : " + billArray1[billNumber].billNumber + "\n Date : " + billArray1[billNumber].billDate);
@@ -403,7 +412,7 @@ class Main extends Bill {
 					billArray[billNumber].productsArray[ctr1].numberOfUnits,
 					billArray[billNumber].productsArray[ctr1].pricePerUnit,
 					billArray[billNumber].productsArray[ctr1].finalPrice,
-					(float)(billArray[billNumber].productsArray[ctr1].discountGiven),
+					(float)((billArray[billNumber].productsArray[ctr1].discountGiven)),
 					billArray[billNumber].productsArray[ctr1].totalPricePerProduct);
 		}
 		System.out.println("");
@@ -458,7 +467,7 @@ class Main extends Bill {
 			if (durationBetweenDates.getYears() > 0) {
 				return 365;
 			}
-			numberOfDays = Math.abs(durationBetweenDates.getMonths() * 30);
+			numberOfDays = Math.abs(durationBetweenDates.getMonths() * 30) + durationBetweenDates.getDays();
 		} catch (Exception e) {
 		}
 		return numberOfDays;
@@ -477,4 +486,26 @@ class Product {
 	public int year;
 	Date p_date = new Date();
 	public String category;
+}
+
+class Bill extends Bill_ProductList {
+	public String billNumber;
+	public String billDate;
+	public int numberOfProducts;
+	public double billTotal;
+	public double billDiscount;
+	public double billTax;
+	public double finalAmount;
+	public Bill_ProductList[] productsArray = new Bill_ProductList[500];
+}
+
+class Bill_ProductList {
+	public String productID;
+	public String productName;
+	public int numberOfUnits;
+	public Date productDate = new Date();
+	public float pricePerUnit;
+	public float finalPrice;
+	public double discountGiven;
+	public double totalPricePerProduct;
 }
